@@ -3,7 +3,7 @@ import { MinioService } from 'nestjs-minio-client';
 import { BufferedFile } from './file.model';
 import * as devConfig from './minio.config.dev';
 import * as prodConfing from './minio.config.prod';
-import * as crypto from 'crypto';
+// import * as crypto from 'crypto';
 
 @Injectable()
 export class MinioClientService {
@@ -19,13 +19,30 @@ export class MinioClientService {
     return this.minio.client;
   }
 
+  private readonly getFixedDate = () => {
+    // zero padding
+    const padZero = (num: number) => {
+      if (num < 10) {
+        return `0${num}`;
+      } else {
+        return `${num}`;
+      }
+    }
+
+    const currentDate = new Date();
+    return "" + currentDate.getFullYear() + "-" + padZero(currentDate.getMonth() + 1) +
+      "-" + padZero(currentDate.getDate()) + " " + padZero(currentDate.getHours()) + ":" +
+      padZero(currentDate.getMinutes()) + ":" + padZero(currentDate.getSeconds()); ``
+  };
+
   public async upload(file: BufferedFile, baseBucket: string = this.baseBucket) {
     if (!file.mimetype.includes('zip')) {
       throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
     }
-    let temp_filename = Date.now();
+    const temp_filename = this.getFixedDate();
+    // 必要そうなら暗号化
     // let hashedFileName = crypto.createHash('md5').update(temp_filename).digest("hex");
-    let ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+    const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
     const metaData = {
       'Content-Type': file.mimetype,
       'X-Amz-Meta-Testing': 1234,
