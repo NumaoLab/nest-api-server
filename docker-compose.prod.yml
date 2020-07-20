@@ -2,7 +2,7 @@ version: "3"
 
 services:
   metabase:
-    container_name: metabase
+    container_name: metabase2
     image: metabase/metabase
     env_file: .env
     ports:
@@ -34,6 +34,7 @@ services:
       - mysql-network
   minio:
     image: "minio/minio"
+    env_file: .env
     ports:
       - "9001:9000"
     # volumes:
