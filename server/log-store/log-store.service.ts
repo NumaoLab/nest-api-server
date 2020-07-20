@@ -10,9 +10,10 @@ export class LogStoreService {
   ) { }
 
   async uploadSingle(file: BufferedFile) {
-    console.log('service');
+    console.log('============Updated File============');
     console.log(file);
-    let uploaded_file = await this.minioClientService.upload(file)
+    console.log('===================================');
+    const uploaded_file = await this.minioClientService.upload(file)
     return {
       url: uploaded_file.url,
       message: "Successfully uploaded to MinIO S3"
