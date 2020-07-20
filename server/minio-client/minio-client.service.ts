@@ -36,9 +36,10 @@ export class MinioClientService {
   };
 
   public async upload(file: BufferedFile, baseBucket: string = this.baseBucket) {
-    if (!file.mimetype.includes('zip')) {
-      throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
-    }
+    // 本当はmimeではじいた方がいいけどcurlのmimeでフィルタが難しくなるのでなんでも上げられるようにしておく
+    // if (!file.mimetype.includes('zip')) {
+    //   throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
+    // }
     const temp_filename = this.getFixedDate();
     // 必要そうなら暗号化
     // let hashedFileName = crypto.createHash('md5').update(temp_filename).digest("hex");
