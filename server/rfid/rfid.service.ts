@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+// import { InjectModel } from "@nestjs/mongoose";
+// import { Model } from "mongoose";
 import { Tags } from "./interfaces/tags.interface";
 import { CreateTagsDto } from "./dto/createTags.dto";
 
@@ -20,7 +20,7 @@ import { ExperimentV1Service } from "@/server/experiment/experiment.v1.service";
 export class RfidService {
   private readonly logger = new Logger(RfidService.name);
   constructor(
-    @InjectModel("RfidTags") private readonly tagsModel: Model<Tags>,
+    // @InjectModel("RfidTags") private readonly tagsModel: Model<Tags>,
     @InjectRepository(Tag) private readonly tagRepository: Repository<Tag>,
     @InjectRepository(TagContainer)
     private readonly tagContainerRepository: Repository<TagContainer>,
@@ -35,9 +35,9 @@ export class RfidService {
   ) {}
 
   async create(createTagsDto: CreateTagsDto) {
-    // mongoへログを保存
-    const createTags = new this.tagsModel(createTagsDto);
-    createTags.save();
+    // // mongoへログを保存
+    // const createTags = new this.tagsModel(createTagsDto);
+    // createTags.save();
 
     // MySQLに保存
     // Tagデータを保存

@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
+// import { MongooseModule } from "@nestjs/mongoose";
 import { TagsSchema } from "./schemas/tags.schema";
 import { RfidController } from "./rfid.controller";
 import { RfidService } from "./rfid.service";
@@ -20,7 +20,7 @@ import {
   imports: [
     WssModule,
     ExperimentModule,
-    MongooseModule.forFeature([{ name: "RfidTags", schema: TagsSchema }]),
+    // MongooseModule.forFeature([{ name: "RfidTags", schema: TagsSchema }]),
     TypeOrmModule.forFeature([
       TagContainer,
       TagInfo,
