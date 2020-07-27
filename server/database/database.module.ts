@@ -9,7 +9,7 @@ import * as typeormProdConfig from "./typeorm.config.prod";
 
 function mongooseDynamicModule() {
   const isDev = process.env.NODE_ENV === "development";
-  const { uri, options } = isDev ? mongooseDevConfig : mongooseProdConfig;
+  const { uri, options } = isDev ? mongooseDevConfig : mongooseDevConfig;
   return MongooseModule.forRoot(uri, options);
 }
 
