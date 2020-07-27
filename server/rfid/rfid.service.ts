@@ -1,6 +1,4 @@
 import { Injectable, Logger } from "@nestjs/common";
-// import { InjectModel } from "@nestjs/mongoose";
-// import { Model } from "mongoose";
 import { Tags } from "./interfaces/tags.interface";
 import { CreateTagsDto } from "./dto/createTags.dto";
 
