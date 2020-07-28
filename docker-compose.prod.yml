@@ -45,8 +45,8 @@ services:
     env_file: .env
     ports:
       - "9001:9000"
-    # volumes:
-    #   - os:/data
+    volumes:
+      - os:/data
     command: server /data
     networks:
       - nginx_proxy_link
