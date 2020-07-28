@@ -13,10 +13,16 @@ export class LogStoreService {
     console.log('============Updated File============');
     console.log(file);
     console.log('===================================');
-    const uploaded_file = await this.minioClientService.upload(file)
-    return {
-      url: uploaded_file.url,
-      message: "Successfully uploaded to MinIO S3"
-    };
+    try{
+      const uploaded_file = await this.minioClientService.upload(file);
+      return {
+        url: uploaded_file.url,
+        message: "Successfully uploaded to MinIO S3"
+      };
+    } catch{
+      return {
+        message: "Failed to upload"
+      };
+    }
   }
 }
