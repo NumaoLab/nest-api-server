@@ -50,6 +50,7 @@ export class MinioClientService {
     };
     const filename: string = `${temp_filename + ext}`;
     const fileBuffer = file.buffer;
+    console.log('before put object',baseBucket, filename, fileBuffer, metaData);
     this.client.putObject(baseBucket, filename, fileBuffer, metaData, (err: any, res: any) => {
       if (err) throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
     })

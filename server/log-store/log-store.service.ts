@@ -19,7 +19,7 @@ export class LogStoreService {
         url: uploaded_file.url,
         message: "Successfully uploaded to MinIO S3"
       };
-    } catch{
+    } catch {
       return {
         message: "Failed to upload"
       };
