@@ -2,7 +2,7 @@ import { MinioOptions } from 'nestjs-minio-client/dist/interfaces/minio.options.
 
 export const uri = "minio";
 export const bucket = "mimamori";
-export const port = '${process.env.MINIO_INNER_PORT}';
+export const port = 9001;
 export const options: MinioOptions = {
   endPoint: uri,
   port: port,
