@@ -57,7 +57,7 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
       SSL_POLICY: "Mozilla-Modern"
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
-      MINIO_SECRET_KEY: ${MINIO_DOMAIN_NAME}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
   web:
     build:
       context: .
