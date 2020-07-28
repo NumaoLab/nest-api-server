@@ -46,7 +46,7 @@ services:
     ports:
       - "9001:9000"
     volumes:
-      - os:/data
+      - ./docker/volumes/minio:/data
     command: server /data
     networks:
       - nginx_proxy_link
