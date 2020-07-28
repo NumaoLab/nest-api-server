@@ -9,4 +9,5 @@ export const options: MinioOptions = {
   useSSL: false,
   accessKey: 'mimamori',
   secretKey: 'mimamori',
+  signatureVersion: 'v4',
 };
