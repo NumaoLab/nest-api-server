@@ -5,9 +5,9 @@ export const bucket = "test";
 export const port = 9001;
 export const options: MinioOptions = {
   endPoint: uri,
-  port: 9000,
+  port: 9001,
   useSSL: false,
-  accessKey: 'mimamori',
-  secretKey: 'mimamori',
+  accessKey: '${process.env.MINIO_ACCESS_KEY}',
+  secretKey: '${process.env.MINIO_SECRET_KEY}',
   signatureVersion: 'v4',
 };

@@ -5,7 +5,7 @@ export const bucket = "test.dev";
 export const port = 9001;
 export const options: MinioOptions = {
   endPoint: uri,
-  port: 9000,
+  port: 9001,
   useSSL: false,
   accessKey: 'mimamori',
   secretKey: 'mimamori',
