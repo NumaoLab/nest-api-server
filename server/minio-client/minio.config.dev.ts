@@ -2,10 +2,10 @@ import { MinioOptions } from 'nestjs-minio-client/dist/interfaces/minio.options.
 
 export const uri = "localhost";
 export const bucket = "test.dev";
-export const port = 9001;
+export const port = 9000;
 export const options: MinioOptions = {
   endPoint: uri,
-  port: 9001,
+  port: 9000,
   useSSL: false,
   accessKey: 'mimamori',
   secretKey: 'mimamori',
