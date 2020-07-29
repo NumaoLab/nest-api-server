@@ -44,7 +44,7 @@ services:
     image: "minio/minio"
     env_file: .env
     ports:
-      - "9001:9000"
+      - "9000:9000"
     volumes:
       - ./docker/volumes/minio:/data
     command: server /data
@@ -52,7 +52,7 @@ services:
       - nginx_proxy_link
     environment:
       VIRTUAL_HOST: ${MINIO_DOMAIN_NAME}
-      VIRTUAL_PORT: 9001
+      VIRTUAL_PORT: 9000
       LETSENCRYPT_HOST: ${MINIO_DOMAIN_NAME}
       LETSENCRYPT_EMAIL: ${EMAIL}
       SSL_POLICY: "Mozilla-Modern"
