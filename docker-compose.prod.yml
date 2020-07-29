@@ -50,6 +50,8 @@ services:
       SSL_POLICY: "Mozilla-Modern"
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    networks:
+      - minio-network
   web:
     build:
       context: .
@@ -80,6 +82,7 @@ services:
       SSL_POLICY: "Mozilla-Modern"
     networks:
       - mysql-network
+      - minio-network
       - nginx_proxy_link
     expose:
       - 3000
@@ -89,6 +92,8 @@ services:
 
 networks:
   mysql-network:
+    driver: bridge
+  minio-network:
     driver: bridge
   nginx_proxy_link:
     external: true
