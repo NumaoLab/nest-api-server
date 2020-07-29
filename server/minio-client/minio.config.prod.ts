@@ -7,7 +7,7 @@ export const options: MinioOptions = {
   endPoint: uri,
   port: port,
   useSSL: false,
-  accessKey: '${process.env.MINIO_ACCESS_KEY}',
-  secretKey: '${process.env.MINIO_SECRET_KEY}',
+  accessKey: process.env.MINIO_ACCESS_KEY,
+  secretKey: process.env.MINIO_SECRET_KEY,
   signatureVersion: 'v4',
 };
