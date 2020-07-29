@@ -41,8 +41,6 @@ export class MinioClientService {
     //   throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
     // }
     const temp_filename = this.getFixedDate();
-    // 必要そうなら暗号化
-    // let hashedFileName = crypto.createHash('md5').update(temp_filename).digest("hex");
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
     const metaData = {
       'Content-Type': file.mimetype,
@@ -51,14 +49,16 @@ export class MinioClientService {
     const filename: string = `${temp_filename + ext}`;
     const fileBuffer = file.buffer;
     console.log('before put object',baseBucket, filename, fileBuffer, metaData);
-    try{
-      this.client.putObject(baseBucket, filename, fileBuffer, metaData, (err: any, res: any) => {
-        if (err) throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
-      })
-    } catch (e){
-      console.log('Error uploading file');
-      return;
+    let isUploadSuceeded = true;
+    this.client.putObject(baseBucket, filename, fileBuffer, metaData, (err: any, res: any) => {
+      // クロージャの中で例外投げると外でキャッチできないっぽい？ので外で例外投げるようにしている
+      if (err) isUploadSuceeded = false;
+    });
+    console.log(isUploadSuceeded);
+    if(!isUploadSuceeded){
+      throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST);
     }
+    
     const config = process.env.NODE_ENV === "development" ? devConfig : prodConfing;
 
     return {

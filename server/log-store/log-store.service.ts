@@ -1,4 +1,4 @@
-import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Logger, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
 import { BufferedFile } from '../minio-client/file.model';
 import { MinioClientService } from '../minio-client/minio-client.service';
 
@@ -13,16 +13,15 @@ export class LogStoreService {
     console.log('============Updated File============');
     console.log(file);
     console.log('===================================');
-    try{
-      const uploaded_file = await this.minioClientService.upload(file);
-      return {
-        url: uploaded_file.url,
-        message: "Successfully uploaded to MinIO S3"
-      };
-    } catch {
-      return {
-        message: "Failed to upload"
-      };
+    if(file){
+      await this.minioClientService.upload(file);
+      console.log('Uploaded!');
+    } else {
+      console.log('File is Empty!');
     }
+    return {
+      uploaded_file_originalname: file?.originalname,
+      message: `${file && 'Successfully uploaded to MinIO S3' || 'File is empty'}`
+    };
   }
 }

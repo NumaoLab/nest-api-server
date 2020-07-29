@@ -23,6 +23,7 @@ export class LogStoreController {
   async uploadSingle(
     @UploadedFile() file: BufferedFile
   ) {
-    return await this.logStoreService.uploadSingle(file)
+    const uploadRes =  await this.logStoreService.uploadSingle(file);
+    return uploadRes;
   }
 }
