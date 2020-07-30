@@ -1,26 +1,25 @@
 export interface BufferedFile {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: AppMimeType;
-    size: number;
-    buffer: Buffer | string;
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: AppMimeType;
+  size: number;
+  buffer: Buffer | string;
 }
 
-export interface StoredFile extends HasFile, StoredFileMetadata { }
+export interface StoredFile extends HasFile, StoredFileMetadata {}
 
 export interface HasFile {
-    file: Buffer | string;
+  file: Buffer | string;
 }
 export interface StoredFileMetadata {
-    id: string;
-    name: string;
-    encoding: string;
-    mimetype: AppMimeType;
-    size: number;
-    updatedAt: Date;
-    fileSrc?: string;
+  id: string;
+  name: string;
+  encoding: string;
+  mimetype: AppMimeType;
+  size: number;
+  updatedAt: Date;
+  fileSrc?: string;
 }
 
-export type AppMimeType =
-    | 'application/zip';
+export type AppMimeType = "application/zip";

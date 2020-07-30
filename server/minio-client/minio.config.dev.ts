@@ -1,4 +1,4 @@
-import { MinioOptions } from 'nestjs-minio-client/dist/interfaces/minio.options.interface';
+import { MinioOptions } from "nestjs-minio-client/dist/interfaces/minio.options.interface";
 
 export const uri = "localhost";
 export const bucket = "test.dev";
@@ -7,7 +7,7 @@ export const options: MinioOptions = {
   endPoint: uri,
   port: 9000,
   useSSL: false,
-  accessKey: 'mimamori',
-  secretKey: 'mimamori',
-  signatureVersion: 'v4',
+  accessKey: "mimamori",
+  secretKey: "mimamori",
+  signatureVersion: "v4",
 };

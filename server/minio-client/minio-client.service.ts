@@ -1,20 +1,21 @@
-import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
-import { MinioService } from 'nestjs-minio-client';
-import { BufferedFile } from './file.model';
-import * as devConfig from './minio.config.dev';
-import * as prodConfing from './minio.config.prod';
+import { Injectable, Logger, HttpException, HttpStatus } from "@nestjs/common";
+import { MinioService } from "nestjs-minio-client";
+import { BufferedFile } from "./file.model";
+import * as devConfig from "./minio.config.dev";
+import * as prodConfing from "./minio.config.prod";
 // import * as crypto from 'crypto';
 
 @Injectable()
 export class MinioClientService {
-  constructor(
-    private readonly minio: MinioService,
-  ) {
-    this.logger = new Logger('MinioStorageService');
+  constructor(private readonly minio: MinioService) {
+    this.logger = new Logger("MinioStorageService");
   }
 
   private readonly logger: Logger;
-  private readonly baseBucket = process.env.NODE_ENV === "development" ? devConfig.bucket : prodConfing.bucket;
+  private readonly baseBucket =
+    process.env.NODE_ENV === "development"
+      ? devConfig.bucket
+      : prodConfing.bucket;
   public get client() {
     return this.minio.client;
   }
@@ -27,48 +28,84 @@ export class MinioClientService {
       } else {
         return `${num}`;
       }
-    }
+    };
 
     const currentDate = new Date();
-    return "" + currentDate.getFullYear() + "-" + padZero(currentDate.getMonth() + 1) +
-      "-" + padZero(currentDate.getDate()) + " " + padZero(currentDate.getHours()) + ":" +
-      padZero(currentDate.getMinutes()) + ":" + padZero(currentDate.getSeconds()); ``
+    return (
+      "" +
+      currentDate.getFullYear() +
+      "-" +
+      padZero(currentDate.getMonth() + 1) +
+      "-" +
+      padZero(currentDate.getDate()) +
+      " " +
+      padZero(currentDate.getHours()) +
+      ":" +
+      padZero(currentDate.getMinutes()) +
+      ":" +
+      padZero(currentDate.getSeconds())
+    );
   };
 
-  public async upload(file: BufferedFile, baseBucket: string = this.baseBucket) {
+  public async upload(
+    file: BufferedFile,
+    baseBucket: string = this.baseBucket,
+  ) {
     // 本当はmimeではじいた方がいいけどcurlのmimeでフィルタが難しくなるのでなんでも上げられるようにしておく
     // if (!file.mimetype.includes('zip')) {
     //   throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST)
     // }
-    const temp_filename = this.getFixedDate();
-    const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+    const tempFilename = this.getFixedDate();
+    const ext = file.originalname.substring(
+      file.originalname.lastIndexOf("."),
+      file.originalname.length,
+    );
     const metaData = {
-      'Content-Type': file.mimetype,
-      'X-Amz-Meta-Testing': 1234,
+      "Content-Type": file.mimetype,
+      "X-Amz-Meta-Testing": 1234,
     };
-    const filename: string = `${temp_filename + ext}`;
+    const filename = `${tempFilename + ext}`;
     const fileBuffer = file.buffer;
-    console.log('before put object',baseBucket, filename, fileBuffer, metaData);
+    console.log(
+      "before put object",
+      baseBucket,
+      filename,
+      fileBuffer,
+      metaData,
+    );
     let isUploadSuceeded = true;
-    this.client.putObject(baseBucket, filename, fileBuffer, metaData, (err: any, res: any) => {
-      // クロージャの中で例外投げると外でキャッチできないっぽい？ので外で例外投げるようにしている
-      if (err) isUploadSuceeded = false;
-    });
+    this.client.putObject(
+      baseBucket,
+      filename,
+      fileBuffer,
+      metaData,
+      // eslint-disable-next-line
+      (err: any, _: any) => {
+        // クロージャの中で例外投げると外でキャッチできないっぽい？ので外で例外投げるようにしている
+        if (err) isUploadSuceeded = false;
+      },
+    );
     console.log(isUploadSuceeded);
-    if(!isUploadSuceeded){
-      throw new HttpException('Error uploading file', HttpStatus.BAD_REQUEST);
+    if (!isUploadSuceeded) {
+      throw new HttpException("Error uploading file", HttpStatus.BAD_REQUEST);
     }
-    
-    const config = process.env.NODE_ENV === "development" ? devConfig : prodConfing;
+
+    const config =
+      process.env.NODE_ENV === "development" ? devConfig : prodConfing;
 
     return {
-      url: `${config.uri}:${config.port}/${config.bucket}/${filename}`
-    }
+      url: `${config.uri}:${config.port}/${config.bucket}/${filename}`,
+    };
   }
 
   async delete(objetName: string, baseBucket: string = this.baseBucket) {
-    this.client.removeObject(baseBucket, objetName, function (err: any, res: any) {
-      if (err) throw new HttpException("Oops Something wrong happend", HttpStatus.BAD_REQUEST)
-    })
+    // eslint-disable-next-line
+    this.client.removeObject(baseBucket, objetName, function(err: any, _: any) {
+      if (err)
+        throw new HttpException(
+          "Oops Something wrong happend",
+          HttpStatus.BAD_REQUEST,
+        );
+    });
   }
 }

@@ -1,5 +1,4 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { Tags } from "./interfaces/tags.interface";
 import { CreateTagsDto } from "./dto/createTags.dto";
 
 import {

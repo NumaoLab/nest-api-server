@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { MinioModule } from 'nestjs-minio-client';
 import * as typeormDevConfig from "./typeorm.config.dev";
 import * as typeormProdConfig from "./typeorm.config.prod";
 
@@ -10,9 +9,7 @@ function typeormDynamicModule() {
   return TypeOrmModule.forRoot(options);
 }
 
-
-
 @Module({
   imports: [typeormDynamicModule()],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

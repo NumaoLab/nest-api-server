@@ -1,4 +1,4 @@
-import { MinioOptions } from 'nestjs-minio-client/dist/interfaces/minio.options.interface';
+import { MinioOptions } from "nestjs-minio-client/dist/interfaces/minio.options.interface";
 
 export const uri = "minio";
 export const bucket = "mimamori";
