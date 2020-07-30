@@ -2,7 +2,7 @@ version: "3"
 
 services:
   metabase:
-    container_name: metabase
+    container_name: metabase2
     image: metabase/metabase
     env_file: .env
     ports:
@@ -32,6 +32,26 @@ services:
       - ./docker/volumes/db/mysql_data:/var/lib/mysql
     networks:
       - mysql-network
+  minio:
+    image: "minio/minio"
+    env_file: .env
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./docker/volumes/minio:/data
+    command: server /data
+    networks:
+      - nginx_proxy_link
+    environment:
+      VIRTUAL_HOST: ${MINIO_DOMAIN_NAME}
+      VIRTUAL_PORT: 9000
+      LETSENCRYPT_HOST: ${MINIO_DOMAIN_NAME}
+      LETSENCRYPT_EMAIL: ${EMAIL}
+      SSL_POLICY: "Mozilla-Modern"
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    networks:
+      - minio-network
   web:
     build:
       context: .
@@ -62,6 +82,7 @@ services:
       SSL_POLICY: "Mozilla-Modern"
     networks:
       - mysql-network
+      - minio-network
       - nginx_proxy_link
     expose:
       - 3000
@@ -71,6 +92,8 @@ services:
 
 networks:
   mysql-network:
+    driver: bridge
+  minio-network:
     driver: bridge
   nginx_proxy_link:
     external: true

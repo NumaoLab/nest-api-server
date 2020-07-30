@@ -22,6 +22,8 @@ import { SlackNotifyModule } from "./slack-notify/slack-notify.module";
 import config from "@/webpack/client/webpack.config.dev";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TagContainer, MessageNotified } from "./entities";
+import { LogStoreModule } from "./log-store/log-store.module";
+import { MinioClientModule } from "./minio-client/minio-client.module";
 import { SimpleActionModule } from "./simple-action/simple-action.module";
 
 @Module({
@@ -40,6 +42,8 @@ import { SimpleActionModule } from "./simple-action/simple-action.module";
     ScheduleModule.register(),
     SlackNotifyModule,
     TypeOrmModule.forFeature([TagContainer, MessageNotified]),
+    LogStoreModule,
+    MinioClientModule,
     SimpleActionModule,
   ],
   controllers: [AppController],

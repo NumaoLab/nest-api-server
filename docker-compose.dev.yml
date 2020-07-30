@@ -18,3 +18,13 @@ services:
       TZ: "Asia/Tokyo"
     ports:
       - 3308:3306
+  minio:
+    image: "minio/minio"
+    ports:
+      - "9000:9000"
+    # volumes:
+    #   - os:/data
+    command: server /data
+    environment:
+      MINIO_ACCESS_KEY: mimamori
+      MINIO_SECRET_KEY: mimamori
