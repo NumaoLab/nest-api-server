@@ -24,6 +24,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { TagContainer, MessageNotified } from "./entities";
 import { LogStoreModule } from "./log-store/log-store.module";
 import { MinioClientModule } from "./minio-client/minio-client.module";
+import { SimpleActionModule } from "./simple-action/simple-action.module";
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { MinioClientModule } from "./minio-client/minio-client.module";
     TypeOrmModule.forFeature([TagContainer, MessageNotified]),
     LogStoreModule,
     MinioClientModule,
+    SimpleActionModule,
   ],
   controllers: [AppController],
   providers: [
